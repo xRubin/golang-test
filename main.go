@@ -5,12 +5,15 @@ import "fmt"
 func main() {
 	data := []int{5, 2, 4, 8, 6, 1, 3, 7, 0, 14}
 	fmt.Println("source:", data)
-	fmt.Println("sorting by insert:", sortingByInsert(data))
-	fmt.Println("sorting by merge:", sortingByMerge(data, 0, len(data) - 1))
+	fmt.Println("sorting by insert:", SortingByInsert(data))
+	
+	data = []int{5, 2, 4, 8, 6, 1, 3, 7, 0, 14}
+	fmt.Println("source:", data)
+	fmt.Println("sorting by merge:", SortingByMerge(data))
 }
 
 // Сортировка вставкой
-func sortingByInsert(a []int) []int {
+func SortingByInsert(a []int) []int {
 	for j := 1; j < len(a); j++ {
 		key := a[j]
 		i := j - 1
@@ -55,14 +58,18 @@ func merge(a []int, p int, q int, r int) []int {
 	return a
 }
 
-// Сортировка вставкой
-func sortingByMerge(a []int, p int, r int) []int {
+func sortByHalf(a []int, p int, r int) []int {
 	if p < r {
 		q := (p + r) / 2
-		a = sortingByMerge(a, p, q)
-		a = sortingByMerge(a, q+1, r)
+		a = sortByHalf(a, p, q)
+		a = sortByHalf(a, q+1, r)
 		a = merge(a, p, q, r)
 	}
 
 	return a
+}
+
+// Сортировка разделением
+func SortingByMerge(a []int) []int {
+	return sortByHalf(a, 0, len(a) - 1);
 }
